@@ -13,12 +13,6 @@ const dbname = process.env.DB_NAME
 const urlView = process.env.VIEW_URL
 
 
-couch.listDatabases().then(function(dbs){
-    console.log(dbs)
-});
-
-
-
 
 //create
 server.post("/guests/add", function (req,res) {
@@ -43,7 +37,6 @@ server.post("/guests/add", function (req,res) {
 //read
 server.get("/", function (req, res) {
     couch.get(dbname, urlView).then(({data, headers, status}) => {
-        console.log(data.rows)
         res.render("index",{
             guests: data.rows
         })
