@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Guests List</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');
+    
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Questrial", sans-serif;
+            
+        }
+    
+        body{
+            color: aliceblue;
+            background-color: #004e72;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .conteiner{
+            width: 100%;
+            height: 100%;
+        }
+        .insert_people_form{
+            padding-top: 2%;
+            position: fixed;
+            width: 100%;
+            background-color: #004e72;
+        }
+        .insert_people_title{
+            text-align: center;
+        }
+        .form{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-left: 10%;
+            padding-right: 10%;
+            
+        }
+        .input_div{
+            width: 100%;
+            padding-top: 2%;
+            padding-bottom: 2%;
+        }
+        input{
+            width: 80%;
+            height: 7vh;
+            border-color: transparent;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+        .insert_people_form + .guests_list{
+            padding-top: 15%;
+        }
+        .guest{
+            background-color: #1b77a1;
+            border-radius: 10px;
+
+
+        }
+        .guest input{
+            width: 100%;
+            height: 5vh;
+            border-color: transparent;
+            border-radius: 10px;
+        }
+        .guests_list h1{
+            padding-bottom: 2%;
+            text-align: center;
+        }
+        .list{
+            padding-left: 10%;
+            padding-right: 10%;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            column-gap: 20px;
+            row-gap: 20px;
+        }
+        .name{
+            width: 80%;
+            font-size: 1.5rem;
+
+        }
+        .age{
+            font-size: 1.3rem;
+        }
+        
+        .actions{
+            padding-top: 4px;
+            display: flex;
+        }
+        .editForm{
+            width: 65%;
+        }
+        .deleteForm {
+            width: 35%;
+        }
+        .deleteForm input{
+            height: 110px;
+
+        }
+        .edit_inputs{
+            padding-bottom: 2px;
+            padding-top: 2px;
+            padding-right: 4px;
+        }
+        .excButton{
+            width: 100%;
+            height: 109px;
+            border-radius: 10px;
+            border-color: transparent;
+            font-size: 70px;
+            background-color: #810e1d;
+            color: #ffffff;
+        }
+        .editbtn{
+            background-color: #072b12;
+            color: #ffffff;
+            font-size: 1.3rem;
+        }
+        .insertBtn{
+            background-color: #46124b;
+            color: #ffffff;
+            font-size: 1.3rem;
+        }
+        .guest_items{
+            padding: 3%;
+
+        }
+        .popupError{
+            display: none;
+            width: 20%;
+            position: absolute;
+            background-color: #46124b;
+        }
+
+
+    </style>
+</head>
+
+
+
+
+
+
+<body>
+    <div class="popupError" id='popUp_error'>
+        <h1>text</h1>
+    </div>
+    <div class="conteiner">
+        
+        <div class="insert_people_form">
+            <h1 class="insert_people_title">Insert people in guests list</h1>
+
+            
+                <form action="/guests/add" method="post" class="form">
+        
+                    <div class="input_div">
+                        <input type="text" name="name" placeholder="Guest name" required maxlength="20">
+                    </div> 
+        
+                    <div class="input_div">
+                        <input type="text" name="age" placeholder="Guest age" required maxlength="2">
+                    </div>
+        
+                    <input type="submit" value="Insert" class="insertBtn">
+                </form>
+        
+            
+        
+        </div>
+
+        
+
+        <div class="guests_list">
+            <h1>Guests</h1>
+            
+            <div class="list">
+                <% guests.forEach(function(guest){ %>
+                    <div class="guest">
+                        <div class="guest_items">
+                            <div class="guest_info">
+                                <h3 class="name">Name: <%= guest.value.name %></h3>
+                                <h4 class="age">Age: <%= guest.value.age %></h4>
+                            </div>
+                            <div class="actions">
+                            <div class='editForm'>
+                                <form action="/guests/updt/<%= guest.key%>" method="post">
+                                <input type="hidden" name="rev" value="<%= guest.value.rev %>">
+                                <div class="edit_inputs">
+                                    <input type="text" name="name" placeholder="new name" class="new_Name" required maxlength="20">
+                                </div>
+                                <div class="edit_inputs">
+                                    <input type="text" name="age" placeholder="new age" class="new_Age" required maxlength="2">
+                                </div>
+                                
+                                <div class="edit_inputs">
+                                   <input type="submit" value="Edit" class="editbtn"> 
+                                </div>
+                                
+
+                            </form>
+
+                            </div>
+                            <div class="deleteForm">
+                                <form action="/guests/del/<%= guest.key%>" method="post">
+                                    <input type="hidden" name="rev" value="<%= guest.value.rev %>">
+                                    <button type="submit"class="excButton">🗑</button>
+                                    
+                                </form> 
+                            </div>
+                        </div>
+                        </div>
+                            
+                            
+                            
+                            
+                        
+                    </div>
+                    
+
+                <% }); %>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
